@@ -1,0 +1,75 @@
+body{
+  font-family: sans-serif;
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */ 
+}
+
+.grid{
+  width: 50vw;
+  display:grid;
+  grid-template-row: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.deck-container{
+  position: relative;
+}
+
+.deck{
+  box-sizing: border-box;
+  width: 12vw;
+  height: 18vw;
+  max-height: 22vh;
+  max-width: 15vh;
+  background-color: #eee;
+  margin: 10px;
+}
+
+.card{
+  z-index: 1000; 
+  position: absolute;
+  background-color: white;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid black;
+  width: 10vw;
+  height: 15vw;
+  max-height: 22vh;
+  max-width: 15vh;
+  border-radius: 8px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.card.placed{
+  z-index: 800;
+}
+
+.card-space {
+  padding: 0px;
+  position: relative;
+  /* border: 1px dotted black; */
+  background-color: #eee;
+  width: 10vw;
+  height: 15vw;
+  max-height: 22vh;
+  max-width: 15vh;
+  margin: 10px;
+  border-radius:8px;
+  box-sizing: border-box;
+}
+
+.card-space.occupied{
+  border: 0px;
+}
+
+.targeted {
+  background: #ddd;
+  border: 3px solid black;
+}
