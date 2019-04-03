@@ -1,5 +1,5 @@
 import {select, selectAll, mouse} from 'd3';
-import { newGame } from './game.js';
+import { newGame, event } from './game.js';
 
 const g = newGame();
 
@@ -25,9 +25,8 @@ function updateCardDeck(add){
 }
 
 function drawCard(){
-  //take the top card from the deck array
-  //create a dom node
-  // <div class="active card" data-code="D9"> A 1 </div>
+  // take the top card from the deck array
+  // create a dom node
   // append it to the deck-container
   const drawnCard = g.drawCard();
 
@@ -61,10 +60,14 @@ function updateScore(score, checklist){
 const mouseWithin = (node) => {
   const loc = mouse(select('body').node());
   const rect = node.getBoundingClientRect()
+  const rectanglePosition = [
+    rect.x+window.scrollX,
+    rect.y+window.scrollY
+  ]
   return (
-    ( loc[0] > rect.x  &&  loc[0] < rect.x + rect.width )
+    ( loc[0] > rectanglePosition[0]  &&  loc[0] < rectanglePosition[0] + rect.width )
     &&
-    ( loc[1] > rect.y  &&  loc[1] < rect.y + rect.height )
+    ( loc[1] > rectanglePosition[1]  &&  loc[1] < rectanglePosition[1] + rect.height )
   );
 }
 
@@ -77,8 +80,9 @@ const dragging = {
 let dragTargets;
 
 function startDrag(){
-  dragging.on = true;
+  dragging.on = true; //pageX
   const globalLocation = mouse(select('body').node());
+  
   dragging.origin.x = globalLocation[0];
   dragging.origin.y = globalLocation[1];
   select('.active.card')
