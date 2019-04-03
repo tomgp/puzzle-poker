@@ -1,4 +1,6 @@
+import {shuffle} from 'd3';
 const Hand = require('pokersolver').Hand;
+
 
 const handScore = {
   'High Card': { cards:0, points:0 },
@@ -31,7 +33,22 @@ export function newGame(){
       ['empty','empty','empty','empty','empty']
     ]
   };
-  const deck = fullDeck().filter((c)=>(c.number == 1 || c.number > 6));
+
+
+
+  const secondaryDeck = fullDeck();
+  const deck = [];
+  
+  game.addCardsToDeck = (n) => {
+    if(secondaryDeck.length < n){
+      secondaryDeck.push( ...fullDeck());
+    }
+    for(let i=0; i<n; i++){
+      const cardToAdd = secondaryDeck.pop();
+      deck.push(cardToAdd);
+    }
+    return game;
+  }
 
   game.getDeck = () => {
     return deck;
@@ -39,10 +56,6 @@ export function newGame(){
 
   game.table = () => {
     return table;
-  }
-
-  game.addCardsToDeck = (n) => {
-    return game;
   }
 
   game.setCard = (row, column, card) => {
@@ -62,7 +75,6 @@ export function newGame(){
       const handValue = simpleClone(handScore[hand.name]);
       hand.score = handValue;
       if(!handTypeChecklist[hand.name]){
-        console.log('first time bonus')
         hand.score.points += firstHandBonus.points;
         hand.score.cards += firstHandBonus.cards;
         hand.firstOfTypeBonus = true;
@@ -70,7 +82,6 @@ export function newGame(){
       }
       score.total += handValue.points;
       score.handHistory.push(simpleClone(hand));
-      console.log(hand.name, score.total);
       return hand;
     });
   }
@@ -96,17 +107,21 @@ export function newGame(){
 function simpleClone(o){ return JSON.parse(JSON.stringify(o)) };
 
 function fullDeck(){
-  return ['hearts','diamonds','spades','clubs'].reduce((deck, suit)=>{
-    for(let i=1; i<=13;i ++){
-      deck.push({
-        suit,
-        number: i,
-        name: i,
-        code: numberToCode(i, suit),
-      })
-    }
-    return deck;
-  }, []);
+  // returns 32 cards, 
+  // shuffled (i.e. a full deck minus card from 2-5 includive)
+  return shuffle(['hearts','diamonds','spades','clubs']
+      .reduce((deck, suit)=>{
+        for(let i=1; i<=13;i ++){
+          deck.push({
+            suit,
+            number: i,
+            name: i,
+            code: numberToCode(i, suit),
+          })
+        }
+        return deck;
+      }, [])
+    .filter((c)=>(c.number == 1 || c.number > 6)));
 }
 
 function numberToCode(number, suit){

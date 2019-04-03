@@ -48,7 +48,8 @@ function updateScore(score, checklist){
   const lastHand = score.handHistory[score.handHistory.length - 1];
 
   select('.total-score')
-    .text(`Score: ${score.total}`);
+    .text(`Score: ${Number(score.total).toLocaleString()}`);
+
   if(lastHand){
     select('.last-score')
       .html(`${lastHand.name} <div>${lastHand.score.points} (+${lastHand.score.cards} cards)</div>`);
@@ -141,13 +142,12 @@ function cardPlaced(){
  
   const rowResults = g.checkRows();
 
-  console.log(rowResults);
   for(let i = 0; i<rowResults.length; i++){
     if(rowResults[i]){
       // remove score and remove that row
       const rowElements = selectAll(`[data-row="${i}"]`);
       rowElements.classed('occupied', false);
-      const cardElements = rowElements.selectAll('.card.placed')
+      rowElements.selectAll('.card.placed')
         .transition()
         .duration(1000)
         .style('opacity', 0)
@@ -156,9 +156,9 @@ function cardPlaced(){
 
       g.clearRow(i);
       const score = g.getScore();
-      updateCardDeck(score.cards);
+      updateCardDeck(rowResults[i].score.cards);
       updateScore(score, g.getChecklist());
-    }else{
+    } else {
       updateCardDeck();
     }
 
