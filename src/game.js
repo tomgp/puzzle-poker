@@ -1,7 +1,7 @@
 const Hand = require('pokersolver').Hand;
 
 const handScore = {
-  'High Card': { points:0, cards:0 },
+  'High Card': { cards:0, points:0 },
   'Pair': { cards:1, points:100 },
   'Two Pair': { cards:2, points:200 },
   'Three of a Kind': { cards:3, points:300 },
@@ -10,10 +10,90 @@ const handScore = {
   'Full House': { cards:6, points:600 },
   'Four of a Kind': { cards:8, points:800 },
   'Straight Flush': { cards:12, points:1200 },
-  'Royal Flush': { cards:16, points:1600 },
-  'First of type': { points:500, cards:5 }
+  'Royal Flush': { cards:16, points:1600 }
 };
 
+const firstHandBonus = {cards:5, points:500}; 
+
+export function newGame(){
+  let cardsDrawn = 0;
+  const game = {};
+
+  const handTypeChecklist = newChecklist();
+  const score = {
+    total: 0,
+    handHistory: []
+  }
+  const table = {
+    rows:[
+      ['empty','empty','empty','empty','empty'],
+      ['empty','empty','empty','empty','empty'],
+      ['empty','empty','empty','empty','empty']
+    ]
+  };
+  const deck = fullDeck().filter((c)=>(c.number == 1 || c.number > 6));
+
+  game.getDeck = () => {
+    return deck;
+  }
+
+  game.table = () => {
+    return table;
+  }
+
+  game.addCardsToDeck = (n) => {
+    return game;
+  }
+
+  game.setCard = (row, column, card) => {
+    table.rows[Number(row)][Number(column)] = card;
+    return game;
+  }
+
+  game.clearRow = (row)=>{
+    table.rows[row] = ['empty','empty','empty','empty','empty'];
+    return game;
+  }
+
+  game.checkRows = () => {
+    return table.rows.map(row => {
+      if(row.indexOf('empty') > -1){ return false }
+      const hand = Hand.solve(row);
+      const handValue = simpleClone(handScore[hand.name]);
+      hand.score = handValue;
+      if(!handTypeChecklist[hand.name]){
+        console.log('first time bonus')
+        hand.score.points += firstHandBonus.points;
+        hand.score.cards += firstHandBonus.cards;
+        hand.firstOfTypeBonus = true;
+        handTypeChecklist[hand.name] = true;
+      }
+      score.total += handValue.points;
+      score.handHistory.push(simpleClone(hand));
+      console.log(hand.name, score.total);
+      return hand;
+    });
+  }
+
+  game.getScore = () => {
+    return score;
+  }
+
+  game.getChecklist = () => {
+    return handTypeChecklist;
+  }
+
+  game.drawCard = () => {
+    cardsDrawn += 1;
+    return deck.pop();
+  }
+
+  return game;
+}
+
+// utilities
+
+function simpleClone(o){ return JSON.parse(JSON.stringify(o)) };
 
 function fullDeck(){
   return ['hearts','diamonds','spades','clubs'].reduce((deck, suit)=>{
@@ -40,41 +120,9 @@ function numberToCode(number, suit){
   return `${code(number)}${suit[0]}`;
 }
 
-export function newGame(){
-
-  const table = {
-    rows:[
-      ['empty','empty','empty','empty','empty'],
-      ['empty','empty','empty','empty','empty'],
-      ['empty','empty','empty','empty','empty'],
-    ]
-  };
-
-  const deck = fullDeck().filter((c)=>(c.number == 1 || c.number > 6));
-  console.log('filtered deck', deck, deck.length);
-
-  function game(){}
-
-  game.table = () => {
-    return table;
-  }
-
-  game.clearRow = (n) => {
-    table.rows[n] = ['empty','empty','empty','empty','empty'];
-  }
-
-  game.setCard = (card, row, column) => {
-    table.rows[row][column] = card;
-  }
-
-  game.checkRows = ()=>{
-    return table.rows.map(row=>{
-      if(row.indexOf('empty') > -1){
-        return false;
-      }
-      return Hand.solve(row);
-    })
-  }
-
-  return game;
+function newChecklist(){
+  return Object.keys(handScore).reduce((acc,current)=>{
+    acc[current] = false;
+    return acc;
+  },{});
 }

@@ -3,77 +3,58 @@ import { newGame } from './game.js';
 
 const g = newGame();
 
-const Hand = require('pokersolver').Hand;
-
-const table = {
-  rows:[
-    ['empty','empty','empty','empty','empty'],
-    ['empty','empty','empty','empty','empty'],
-    ['empty','empty','empty','empty','empty'],
-  ]
-}
-
-function clearTableRow(i){
-  table.rows[i] = ['empty','empty','empty','empty','empty'];
-}
-
-const deck = [];
-
-function checkRows(rows){
-  return rows.map(row=>{
-    if(row.indexOf('empty') > -1){
-      return false;
-    }
-    return Hand.solve(row);
-  });
-}
-
-function numberToCode(number, suit){
-  const code = (n)=>{
-    if(n<10){
-      return n
-    }else{
-      return {10:'T',11:'J',12:'Q',13:'K'}[n];
-    }
+function updateCardDeck(add){
+  if(add != undefined){
+    g.addCardsToDeck(add);
   }
-  return `${code(number)}${suit[0]}`;
-}
 
-function fullDeck(){
-  return ['hearts','diamonds','spades','clubs'].reduce((deck, suit)=>{
-    for(let i=1; i<=13;i ++){
-      deck.push({
-        suit,
-        number: i,
-        name: i,
-        code: numberToCode(i, suit),
-      })
-    }
-    return deck;
-  }, []);
-}
+  const deckJoin = select('.deck')
+    .selectAll('.face-down.card')
+      .data(g.getDeck());
 
-function addCardsToDeck(n){
-  if(n==undefined){
-    deck.push(...fullDeck())
-  }
-}
+  deckJoin.enter()
+    .append('div')
+    .attr('class','face-down card');
 
-addCardsToDeck();
-console.log(deck);
+  deckJoin.exit()
+    .remove();
+
+  select('.deck')
+    .selectAll('.face-down.card')
+    .style('top', (d, i) => `${-i}px`);
+}
 
 function drawCard(){
   //take the top card from the deck array
   //create a dom node
   // <div class="active card" data-code="D9"> A 1 </div>
   // append it to the deck-container
-  const drawnCard = deck.pop();
+  const drawnCard = g.drawCard();
 
   return select('.card-container')
     .append('div')
-    .attr('class', 'active card')
-    .attr('data-code', drawnCard.code)
-    .text(drawnCard.code);
+    .call(parent=>{
+      parent.attr('class', 'active card')
+        .attr('data-code', drawnCard.code);
+
+      parent.append('img')
+        .attr('src',`images/${drawnCard.code}.svg`)
+        .attr('draggable','false');
+    })
+
+}
+
+function updateScore(score, checklist){
+  const lastHand = score.handHistory[score.handHistory.length - 1];
+
+  select('.total-score')
+    .text(`Score: ${score.total}`);
+  if(lastHand){
+    select('.last-score')
+      .html(`${lastHand.name} <div>${lastHand.score.points} (+${lastHand.score.cards} cards)</div>`);
+  }
+
+  select('.hand-record')
 }
 
 const mouseWithin = (node) => {
@@ -95,11 +76,12 @@ const dragging = {
 let dragTargets;
 
 function startDrag(){
-  console.log('start');
   dragging.on = true;
   const globalLocation = mouse(select('body').node());
   dragging.origin.x = globalLocation[0];
   dragging.origin.y = globalLocation[1];
+  select('.active.card')
+    .classed('dragging',true);
 }
 
 function drag(){
@@ -113,6 +95,7 @@ function drag(){
     dragTargets.classed('targeted', function(){ return mouseWithin(this) })
 
     select('.active.card')
+      .classed('dragging',true)
       .style('left', `${offset.x}px`)
       .style('top', `${offset.y}px`);
   }
@@ -123,6 +106,7 @@ function stopDrag(){
   const t = select('.targeted');
   const snapTo = {x:0, y:0};
   const activeCard = select('.active.card');
+  activeCard.classed('dragging',false);
 
   if(t && t.node()){
     //add the card as a child of that slot;
@@ -147,37 +131,40 @@ function cardPlaced(){
   selectAll('.card-space')
     .each(function(){
       const coords = this.dataset;
-      console.log('coord', coords);
       const placedCard = select(this).select('.card');
       if(placedCard.node()){
         const cardData = placedCard.node().dataset;
-        console.log('card data', cardData)
-        table.rows[Number(coords.row)][Number(coords.col)] = String(cardData.code);
+        g.setCard(coords.row, coords.col, cardData.code);
       }
     });
   
  
-  const rowResults = checkRows(table.rows);
+  const rowResults = g.checkRows();
+
   console.log(rowResults);
   for(let i = 0; i<rowResults.length; i++){
     if(rowResults[i]){
       // remove score and remove that row
       const rowElements = selectAll(`[data-row="${i}"]`);
-      console.log('el',rowElements);
       rowElements.classed('occupied', false);
       const cardElements = rowElements.selectAll('.card.placed')
         .transition()
         .duration(1000)
         .style('opacity', 0)
-        .on('end', console.log('transition done'))
+        .on('end', ()=>{/* transition done */})
         .remove();
 
-      clearTableRow(i);
-//      console.log(rowElements, rowElements.length);
+      g.clearRow(i);
+      const score = g.getScore();
+      updateCardDeck(score.cards);
+      updateScore(score, g.getChecklist());
+    }else{
+      updateCardDeck();
     }
+
   }
   // draw a new card and make it active
-  cardNum ++;
+
   const newCard = drawCard()
   addDragListeners(newCard);
   // set the drag targets to available spaces
@@ -191,9 +178,11 @@ function addDragListeners(targetNode){
   targetNode.on('mousedown', startDrag);
   targetNode.on('mousemove', drag);
 }
-var cardNum = 0;
+
 const main = () => {
+  updateCardDeck(32);
   const newCard = drawCard();
+  updateScore(g.getScore(), g.getChecklist());
   addDragListeners(newCard);
   dragTargets = selectAll('.card-space:not(.occupied)');
 }

@@ -4,25 +4,53 @@ body{
   -moz-user-select: none;     /* Firefox all */
   -ms-user-select: none;      /* IE 10+ */
   user-select: none;          /* Likely future */ 
+  margin:0px;
+  padding:0px;
+}
+
+img {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+h1{
+  margin-bottom:40px;
+  margin-left:20px;
+}
+
+.table{
+  margin:20px;
+  max-width: 800px;
 }
 
 .grid{
-  width: 50vw;
   display:grid;
-  grid-template-row: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  
+  grid-gap: 1vw;
+  max-height: 50vh;
+  width: 100vw;
+  max-width: 700px;
 }
 
 .ui-container{
   position: relative;
-  display: inline-grid;
-  grid-template-columns: 1fr 1fr 3fr;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  width: 100vw;
+  max-width: 700px;
+  grid-gap: 1vw;
+  margin-bottom: 10px;
 }
 
 .card-container{
   position: relative;
-  display:inline-block;
-  background-color: red;
+  display: inline-block;
+  text-align: center;
 }
 
 .deck{
@@ -31,17 +59,17 @@ body{
   height: 18vw;
   max-height: 22vh;
   max-width: 15vh;
-  background-color: #eee;
+  padding: 10px;
 }
 
 .card{
   z-index: 1000; 
   position: absolute;
+  display: inline-block;
   background-color: white;
   top: 0;
   left: 0;
   box-sizing: border-box;
-  padding: 10px;
   border: 1px solid black;
   width: 10vw;
   height: 15vw;
@@ -52,6 +80,17 @@ body{
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.active.card{
+  transition: box-shadow 0.1s ease-out;
+  -webkit-box-shadow: 5px 5px 4px -1px rgba(0,0,0,0.39); 
+  box-shadow: 5px 5px 4px -1px rgba(0,0,0,0.39);
+}
+
+.dragging.active.card{
+  -webkit-box-shadow: 15px 15px 4px -1px rgba(0,0,0,0.39); 
+  box-shadow: 15px 15px 4px -1px rgba(0,0,0,0.39);
 }
 
 .card.placed{
@@ -67,7 +106,6 @@ body{
   height: 15vw;
   max-height: 22vh;
   max-width: 15vh;
-  margin: 10px;
   border-radius:8px;
   box-sizing: border-box;
 }
@@ -82,5 +120,11 @@ body{
 }
 
 .score{
-  background-color: aqua;
+
+}
+
+.face-down.card{
+  border: 1px solid rgba(0,0,0,0.5);
+  background: rgb(0,34,255);
+  background: linear-gradient(180deg, rgba(0,34,255,1) 0%, rgba(255,255,255,1) 47%, rgba(253,29,29,1) 47%, rgba(252,255,0,1) 100%);
 }
