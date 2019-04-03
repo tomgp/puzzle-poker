@@ -29,6 +29,7 @@ function drawCard(){
   // create a dom node
   // append it to the deck-container
   const drawnCard = g.drawCard();
+  if(!drawnCard){ return false; }
 
   return select('.card-container')
     .append('div')
@@ -39,8 +40,7 @@ function drawCard(){
       parent.append('img')
         .attr('src',`images/${drawnCard.code}.svg`)
         .attr('draggable','false');
-    })
-
+    });
 }
 
 function updateScore(score, checklist){
@@ -51,7 +51,7 @@ function updateScore(score, checklist){
 
   if(lastHand){
     select('.last-score')
-      .html(`${lastHand.name} <div>${lastHand.score.points} (+${lastHand.score.cards} cards)</div>`);
+      .html(`${lastHand.name} <div>${Number(lastHand.score.points).toLocaleString()} (+${lastHand.score.cards} cards)</div>`);
   }
 
   select('.hand-record')
@@ -168,13 +168,18 @@ function cardPlaced(){
     }
 
   }
-  // draw a new card and make it active
 
-  const newCard = drawCard()
-  addDragListeners(newCard);
-  // set the drag targets to available spaces
-  dragTargets = selectAll('.card-space:not(.occupied)');
+  // draw a new card and if it's not the last make it active
+  const newCard = drawCard();
 
+  if(!newCard){
+    console.log('gameOver')
+    //clear board and say game over
+  }else{
+    addDragListeners(newCard);
+    // set the drag targets to available spaces
+    dragTargets = selectAll('.card-space:not(.occupied)');
+  }
 }
 
 function addDragListeners(targetNode){
