@@ -1,7 +1,11 @@
 import {select, selectAll, mouse} from 'd3';
+import { newGame } from './game.js';
+
+const g = newGame();
+
 const Hand = require('pokersolver').Hand;
 
-var table = {
+const table = {
   rows:[
     ['empty','empty','empty','empty','empty'],
     ['empty','empty','empty','empty','empty'],
@@ -9,22 +13,30 @@ var table = {
   ]
 }
 
+function clearTableRow(i){
+  table.rows[i] = ['empty','empty','empty','empty','empty'];
+}
+
 const deck = [];
 
 function checkRows(rows){
   return rows.map(row=>{
-    console.log(row);
     if(row.indexOf('empty') > -1){
-      console.log('?');
       return false;
     }
-    console.log('!');
     return Hand.solve(row);
   });
 }
 
 function numberToCode(number, suit){
-  return number+suit[0];
+  const code = (n)=>{
+    if(n<10){
+      return n
+    }else{
+      return {10:'T',11:'J',12:'Q',13:'K'}[n];
+    }
+  }
+  return `${code(number)}${suit[0]}`;
 }
 
 function fullDeck(){
@@ -34,7 +46,7 @@ function fullDeck(){
         suit,
         number: i,
         name: i,
-        code: suit[0] + i,
+        code: numberToCode(i, suit),
       })
     }
     return deck;
@@ -49,6 +61,20 @@ function addCardsToDeck(n){
 
 addCardsToDeck();
 console.log(deck);
+
+function drawCard(){
+  //take the top card from the deck array
+  //create a dom node
+  // <div class="active card" data-code="D9"> A 1 </div>
+  // append it to the deck-container
+  const drawnCard = deck.pop();
+
+  return select('.card-container')
+    .append('div')
+    .attr('class', 'active card')
+    .attr('data-code', drawnCard.code)
+    .text(drawnCard.code);
+}
 
 const mouseWithin = (node) => {
   const loc = mouse(select('body').node());
@@ -131,17 +157,28 @@ function cardPlaced(){
     });
   
  
-  //const rowResults = checkRows(table.rows);
-  
+  const rowResults = checkRows(table.rows);
+  console.log(rowResults);
+  for(let i = 0; i<rowResults.length; i++){
+    if(rowResults[i]){
+      // remove score and remove that row
+      const rowElements = selectAll(`[data-row="${i}"]`);
+      console.log('el',rowElements);
+      rowElements.classed('occupied', false);
+      const cardElements = rowElements.selectAll('.card.placed')
+        .transition()
+        .duration(1000)
+        .style('opacity', 0)
+        .on('end', console.log('transition done'))
+        .remove();
 
+      clearTableRow(i);
+//      console.log(rowElements, rowElements.length);
+    }
+  }
   // draw a new card and make it active
   cardNum ++;
-  const newCard = select('.deck-container')
-    .append('div')
-      .attr('class','active card')
-      .attr('data-code','h' + cardNum)
-      .text('new ' + cardNum);
-
+  const newCard = drawCard()
   addDragListeners(newCard);
   // set the drag targets to available spaces
   dragTargets = selectAll('.card-space:not(.occupied)');
@@ -156,7 +193,8 @@ function addDragListeners(targetNode){
 }
 var cardNum = 0;
 const main = () => {
-  addDragListeners( select('.active.card') );
+  const newCard = drawCard();
+  addDragListeners(newCard);
   dragTargets = selectAll('.card-space:not(.occupied)');
 }
 

@@ -13,8 +13,16 @@ body{
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
-.deck-container{
+.ui-container{
   position: relative;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr 3fr;
+}
+
+.card-container{
+  position: relative;
+  display:inline-block;
+  background-color: red;
 }
 
 .deck{
@@ -24,7 +32,6 @@ body{
   max-height: 22vh;
   max-width: 15vh;
   background-color: #eee;
-  margin: 10px;
 }
 
 .card{
@@ -72,4 +79,8 @@ body{
 .targeted {
   background: #ddd;
   border: 3px solid black;
+}
+
+.score{
+  background-color: aqua;
 }
