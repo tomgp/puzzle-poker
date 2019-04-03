@@ -59,15 +59,15 @@ function updateScore(score, checklist){
 
 const mouseWithin = (node) => {
   const loc = mouse(select('body').node());
-  const rect = node.getBoundingClientRect()
+  const rectangle = node.getBoundingClientRect();
   const rectanglePosition = [
-    rect.x+window.scrollX,
-    rect.y+window.scrollY
-  ]
+    rectangle.x+window.scrollX,
+    rectangle.y+window.scrollY
+  ];
   return (
-    ( loc[0] > rectanglePosition[0]  &&  loc[0] < rectanglePosition[0] + rect.width )
+    ( loc[0] > rectanglePosition[0]  &&  loc[0] < rectanglePosition[0] + rectangle.width )
     &&
-    ( loc[1] > rectanglePosition[1]  &&  loc[1] < rectanglePosition[1] + rect.height )
+    ( loc[1] > rectanglePosition[1]  &&  loc[1] < rectanglePosition[1] + rectangle.height )
   );
 }
 
@@ -153,8 +153,9 @@ function cardPlaced(){
       rowElements.classed('occupied', false);
       rowElements.selectAll('.card.placed')
         .transition()
-        .duration(1000)
+        .duration(500)
         .style('opacity', 0)
+        .style('transform', `translateZ(0) scale(2)  rotate(0.5turn)`)
         .on('end', ()=>{/* transition done */})
         .remove();
 
