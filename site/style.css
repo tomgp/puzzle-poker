@@ -59,6 +59,15 @@ h1{
   max-height: 22vh;
   max-width: 15vh;
   padding: 10px;
+  position: relative;
+  bottom: 0px;
+  display: inline-block;
+}
+
+.remaining-count{
+  position: absolute;
+  margin-top: 12px;
+  display: inline-block;
 }
 
 .card{

@@ -22,6 +22,9 @@ function updateCardDeck(add){
   select('.deck')
     .selectAll('.face-down.card')
     .style('top', (d, i) => `${-i}px`);
+
+  select('.remaining-count')
+    .text(g.getDeck().length);
 }
 
 function drawCard(){
