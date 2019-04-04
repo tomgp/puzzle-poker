@@ -1,6 +1,6 @@
 import {select, selectAll, mouse} from 'd3';
 import { newGame, event } from './game.js';
-
+import {handDescriptions} from './hand-descriptions.js';
 const g = newGame();
 
 function updateCardDeck(add){
@@ -54,10 +54,40 @@ function updateScore(score, checklist){
 
   if(lastHand){
     select('.last-score')
-      .html(`${lastHand.name} <div>${Number(lastHand.score.points).toLocaleString()} (+${lastHand.score.cards} cards)</div>`);
+      .html(`${lastHand.name} &ndash; ${ Number(lastHand.score.points).toLocaleString()} (+${lastHand.score.cards} cards)`);
   }
 
+  const checkListMarkup = Object.entries(g.getChecklist())
+    .map(([handName, complete])=>`<span data-handname="${handName}" class="hand-check-item ${(complete ? 'done' : 'todo' )}">${handName}</span>`)
+    .join(' &ndash; ');
+
   select('.hand-record')
+    .html(checkListMarkup);
+  
+  selectAll('span[data-handname]')
+    .each(function(){
+
+      select(this).on('mouseover', function(){
+        handDescriptions[this.dataset.handname];
+        const rect = select('.hand-record').node()
+          .getBoundingClientRect();
+
+        select('.tooltip')
+          .style('display','block')
+          .style('top', `${ rect.top + rect.height }px`)
+          .style('left', `${ rect.left }px`)
+          .style('width', `${rect.width}px`)
+          .style('opacity', 1)
+          .html(`<span class="tooltip-title">${this.dataset.handname}:</span> ${handDescriptions[this.dataset.handname]}`);
+      });
+
+      select(this).on('mouseout', function(){
+        select('.tooltip')
+          .style('opacity', 0)
+          .style('z-index', 0);
+          //.style('display', 'none');
+      });
+    });
 }
 
 const mouseWithin = (node) => {
@@ -169,7 +199,6 @@ function cardPlaced(){
     } else {
       updateCardDeck();
     }
-
   }
 
   // draw a new card and if it's not the last make it active

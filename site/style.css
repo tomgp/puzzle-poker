@@ -1,3 +1,13 @@
+:root{
+  --cardHeightRatio: 1.5;
+  --cardWidth: 70px;
+  --cardHeight: calc(var(--cardWidth) * var(--cardHeightRatio));
+  --gridHorizontalSpacing: 10px;
+  --gridVerticalSpacing: calc(var(--gridHorizontalSpacing)*var(--cardHeightRatio));
+  --gridWidth: calc(var(--cardWidth) * 5 + var(--gridHorizontalSpacing)*4);
+  --corner: 8px;
+}
+
 body{
   font-family: sans-serif;
   -webkit-user-select: none;  /* Chrome all / Safari all */
@@ -31,18 +41,16 @@ h1{
   display:grid;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-gap: 1vw;
-  width: 100vw;
-  max-width: 700px;
+  grid-gap: var(--gridVerticalSpacing) var(--gridHorizontalSpacing);
+  width: var(--gridWidth);
 }
 
 .ui-container{
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  width: 100vw;
-  max-width: 700px;
-  grid-gap: 1vw;
+  grid-gap: var(--gridVerticalSpacing) var(--gridHorizontalSpacing);
+  width: var(--gridWidth);
   margin-bottom: 10px;
 }
 
@@ -54,21 +62,15 @@ h1{
 
 .deck{
   box-sizing: border-box;
-  width: 12vw;
-  height: 18vw;
-  max-height: 22vh;
-  max-width: 15vh;
+  width: var(--cardWidth);
+  height: var(--cardHeight);
   padding: 10px;
   position: relative;
   bottom: 0px;
   display: inline-block;
 }
 
-.remaining-count{
-  position: absolute;
-  margin-top: 12px;
-  display: inline-block;
-}
+
 
 .card{
   z-index: 1000; 
@@ -79,11 +81,9 @@ h1{
   left: 0;
   box-sizing: border-box;
   border: 1px solid black;
-  width: 10vw;
-  height: 15vw;
-  max-height: 22vh;
-  max-width: 15vh;
-  border-radius: 8px;
+  width: var(--cardWidth);
+  height: var(--cardHeight);
+  border-radius: var(--corner);
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -91,18 +91,20 @@ h1{
 }
 
 .active.card{
+  cursor: grab;
   transition: box-shadow 0.1s ease-out;
   -webkit-box-shadow: 5px 5px 4px -1px rgba(0,0,0,0.39); 
   box-shadow: 5px 5px 4px -1px rgba(0,0,0,0.39);
 }
 
 .dragging.active.card{
+  cursor: grabbing;
   -webkit-box-shadow: 15px 15px 4px -1px rgba(0,0,0,0.39); 
   box-shadow: 15px 15px 4px -1px rgba(0,0,0,0.39);
 }
 
 .card.placed{
-  z-index: 800;
+  z-index: auto;
 }
 
 .card-space {
@@ -110,11 +112,9 @@ h1{
   position: relative;
   /* border: 1px dotted black; */
   background-color: #eee;
-  width: 10vw;
-  height: 15vw;
-  max-height: 22vh;
-  max-width: 15vh;
-  border-radius:8px;
+  width: var(--cardWidth);
+  height: var(--cardHeight);
+  border-radius: var(--corner);
   box-sizing: border-box;
 }
 
@@ -134,18 +134,63 @@ h1{
 .total-score{
   font-size: 1.7rem;
 }
+span[data-handname]{
+  cursor: help;
+}
 
-.last-score{
+.last-score, .hand-record{
   font-size: 0.7rem;
-  color: #ccc;
+  color: #333;
+  margin-top: 10px;
 }
 
 .face-down.card{
+  z-index: auto;
   border: 1px solid rgba(0,0,0,0.5);
   background: rgb(0,34,255);
   background: linear-gradient(180deg, rgba(0,34,255,1) 0%, rgba(255,255,255,1) 47%, rgba(253,29,29,1) 47%, rgba(252,255,0,1) 100%);
 }
 
+.remaining-count{
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: inline-block;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding:10px;
+}
+
+.hand-check-item.done{
+  text-decoration: line-through;
+  color: red;
+}
+
+.hand-check-item.todo{
+  font-weight: bold;
+}
+
+.hand-check-item:hover{
+  color:white;
+  background: blue;
+}
+
 td.num{
   text-align: right;
+}
+
+.tooltip{
+  position: fixed;
+  background: #fff;
+  border: 1px solid black;
+  border-radius: var(--corner);
+  padding: 10px;
+  transition-property: opacity;
+}
+
+.tooltip-title{
+  font-weight: bold;
 }
