@@ -6,7 +6,7 @@
   <script src="bundle.js"></script>
 </head>
 <body>
-<h1>&bull; ♣️♥️ &bull; Puzzle Poker &bull; ♦️♠️ &bull;</h1>
+<h1>&bull; Puzzle Poker &bull;</h1>
 
   <div class="ui-container">
     <div>
@@ -39,46 +39,8 @@
     <div class="card-space" data-row="2" data-col="3"></div>
     <div class="card-space" data-row="2" data-col="4"></div>
   </div>
-
-<div class="about">
-  <h2>About <em>Puzzle Poker</em></h2>
-  <p><em>Puzzle Poker</em> is based on Reiner Knizia's <em>Deck Buster</em> game which I used to enjoy playing on my iPad until the developer stopped updating it and it became incompatible with later versions of iOS.</p>
-  <p>I'm working from memory and I think there are a couple of differences to do with how the rows are cleared but other wise it works in basically the same way.</p>
-  <h2>Aim</h2>
-  <p>The aim of the game is to get a high score by completing five card <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Hand-ranking_categories">poker hands</a> on the rows of the grid above.</p>
-  <p>When a row is complete the cards which have been place on that row disappear allowing you to make further hands and score more points.</p>
-  <p>More difficult hands score higher and completing hands also adds more cards to your deck letting you to play for longer and increase your score further. The first time you complete a particular hand you'll get some bonus points and some bonus cards.</p>
-  <p>One last thing: The deck only has 32 cards (no 2&apos;s, 3&apos;s, 4&apos;s, 5&apos;s or 6&apos;s so the probablilities of getting the rarer hands aren't as formidable as they might otherwise be.</p>
-  <h2>Scoring</h2>
-  <table>
-    <tr><th>Hand</th><th>Points</th><th>Cards</th></tr>
-    <tr><td>High Card</td><td class="num">0</td><td class="num">0</td></tr>
-    <tr><td>Pair</td><td class="num">100</td><td class="num">1</td></tr>
-    <tr><td>Two Pair</td><td class="num">200</td><td class="num">2</td></tr>
-    <tr><td>Three of a Kind</td><td class="num">300</td><td class="num">3</td></tr>
-    <tr><td>Straight</td><td class="num">400</td><td class="num">4</td></tr>
-    <tr><td>Flush</td><td class="num">500</td><td class="num">5</td></tr>
-    <tr><td>Full House</td><td class="num">600</td><td class="num">6</td></tr>
-    <tr><td>Four of a Kind</td><td class="num">800</td><td class="num">8</td></tr>
-    <tr><td>Straight Flush</td><td class="num">1200</td><td class="num">12</td></tr>
-    <tr><td>Royal Flush</td><td class="num">1600</td><td class="num">16</td></tr>
-    <tr><td>First of type bonus</td><td class="num">500</td><td class="num">5</td></tr>
-  </table>
-  <h2>Things I used to make this</h2>
-  <ul>
-    <li><a href="https://commons.wikimedia.org/wiki/File:Atlasnye_playing_cards_deck.svg">Card graphics from Wikimedia</a></li>
-    <li>The <a href="https://www.npmjs.com/package/pokersolver">pokersolver</a> module which saved me a lot of work and distraction in recognising poker hands, exactly the kind of rabbit hole I'm prone to pursue.</li>
-    <li><a href="https://www.d3js.org">D3</a> for DOM manipulation and card shuffling</li>
-  </ul>
-  <h2>To-do list</h2>
-  <ul>
-    <li>touch controls for phones etc.</li>
-    <li>keyboard controls</li>
-    <li>accesibility improvements</li>
-    <li>store scoring record locally -- high score table, stats etc.</li>
-    <li>choice of card faces and backs</li>
-  </ul>
-</div>
-<div class="tooltip"></div>
+<div class="tooltip" style="opacity:0"></div>
+<hr>
+<p><a href="about.html">About Puzzle Poker</a></p>
 </body>
 </html>
