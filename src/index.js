@@ -46,6 +46,18 @@ function drawCard(){
     });
 }
 
+function removeRow(i){
+  const rowElements = selectAll(`[data-row="${i}"]`);
+  rowElements.classed('occupied', false);
+  rowElements.selectAll('.card.placed')
+    .transition()
+    .duration(500)
+    .style('opacity', 0)
+    .style('transform', d=>`translateZ(0) translateY(100px) rotate(${Math.random() * 0.3 - 0.15}turn)`)
+    .on('end', ()=>{/* transition done */})
+    .remove();
+}
+
 function updateScore(score, checklist){
   const lastHand = score.handHistory[score.handHistory.length - 1];
 
@@ -147,15 +159,14 @@ function stopDrag(){
   activeCard.classed('dragging',false);
 
   if(t && t.node()){
-    //add the card as a child of that slot;
+    //add the card as a child of that space;
     t.classed('occupied', true);
     t.node().appendChild(activeCard.node());
     activeCard.classed('active', false);
     activeCard.classed('placed', true);
     activeCard.on('mousedown', null);
     dragTargets.classed('targeted', false);
-
-    cardPlaced();
+    cardPlaced(t.node().dataset.row, t.node().dataset.col);
   }
 
   activeCard
@@ -163,7 +174,7 @@ function stopDrag(){
     .style('top', `${snapTo.y}px`);
 }
 
-function cardPlaced(){
+function cardPlaced(row, col){
   // put the current table state into a data structure for
   // testing for complete rows etc.
   selectAll('.card-space')
@@ -175,33 +186,27 @@ function cardPlaced(){
         g.setCard(coords.row, coords.col, cardData.code);
       }
     });
-  
- 
-  const rowResults = g.checkRows();
 
-  for(let i = 0; i<rowResults.length; i++){
-    if(rowResults[i]){
-      // remove score and remove that row
-      const rowElements = selectAll(`[data-row="${i}"]`);
-      rowElements.classed('occupied', false);
-      rowElements.selectAll('.card.placed')
-        .transition()
-        .duration(500)
-        .style('opacity', 0)
-        .style('transform', `translateZ(0) scale(2)  rotate(0.5turn)`)
-        .on('end', ()=>{/* transition done */})
-        .remove();
-
-      g.clearRow(i);
-      const score = g.getScore();
-      updateCardDeck(rowResults[i].score.cards);
-      updateScore(score, g.getChecklist());
-    } else {
-      updateCardDeck();
-    }
+  const rowResult = g.scoreRow(row);
+  if(rowResult){
+    updateCardDeck(rowResult.score.cards);
+    updateScore(g.getScore(), g.getChecklist());
+  } else {
+    updateCardDeck();
   }
 
-  // draw a new card and if it's not the last make it active
+  const clear = g.clearRows();
+
+  if(clear.score > 0){
+    updateScore(g.getScore(), g.getChecklist());
+  }
+
+  clear.rowsCleared.forEach((remove, i)=>{
+    if(remove){
+      removeRow(i)
+    };
+  });
+
   const newCard = drawCard();
 
   if(!newCard){

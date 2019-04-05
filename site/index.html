@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>&bull; Puzzle Poker &bull;</h1>
-
+<div class="game">
   <div class="ui-container">
     <div>
       <div class="deck"></div>
@@ -21,26 +21,30 @@
     </div>
   </div>
   <div class="grid">
-    <div class="card-space" data-row="0" data-col="0"></div>
-    <div class="card-space" data-row="0" data-col="1" ></div>
-    <div class="card-space" data-row="0" data-col="2"></div>
-    <div class="card-space" data-row="0" data-col="3"></div>
-    <div class="card-space" data-row="0" data-col="4"></div>
+    <div class="card-space" style="grid-area: r0c0" data-row="0" data-col="0"></div>
+    <div class="card-space" style="grid-area: r0c1" data-row="0" data-col="1" ></div>
+    <div class="card-space" style="grid-area: r0c2" data-row="0" data-col="2"></div>
+    <div class="card-space" style="grid-area: r0c3" data-row="0" data-col="3"></div>
+    <div class="card-space" style="grid-area: r0c4" data-row="0" data-col="4"></div>
 
-    <div class="card-space" data-row="1" data-col="0"></div>
-    <div class="card-space" data-row="1" data-col="1"></div>
-    <div class="card-space" data-row="1" data-col="2"></div>
-    <div class="card-space" data-row="1" data-col="3"></div>
-    <div class="card-space" data-row="1" data-col="4"></div>
+    <div class="card-space" style="grid-area: r1c0" data-row="1" data-col="0"></div>
+    <div class="card-space" style="grid-area: r1c1" data-row="1" data-col="1"></div>
+    <div class="card-space" style="grid-area: r1c2" data-row="1" data-col="2"></div>
+    <div class="card-space" style="grid-area: r1c3" data-row="1" data-col="3"></div>
+    <div class="card-space" style="grid-area: r1c4" data-row="1" data-col="4"></div>
 
-    <div class="card-space" data-row="2" data-col="0"></div>
-    <div class="card-space" data-row="2" data-col="1"></div>
-    <div class="card-space" data-row="2" data-col="2"></div>
-    <div class="card-space" data-row="2" data-col="3"></div>
-    <div class="card-space" data-row="2" data-col="4"></div>
+    <div class="card-space" style="grid-area: r2c0" data-row="2" data-col="0"></div>
+    <div class="card-space" style="grid-area: r2c1" data-row="2" data-col="1"></div>
+    <div class="card-space" style="grid-area: r2c2" data-row="2" data-col="2"></div>
+    <div class="card-space" style="grid-area: r2c3" data-row="2" data-col="3"></div>
+    <div class="card-space" style="grid-area: r2c4" data-row="2" data-col="4"></div>
+
+    <div class="row0-backing">&nbsp;</div>
+    <div class="row2-backing">&nbsp;</div>
+    <div class="row1-backing">&nbsp;</div>
   </div>
+</div>
 <div class="tooltip" style="opacity:0"></div>
-<hr>
-<p><a href="about.html">About Puzzle Poker</a></p>
+<div class="info"><p><a href="about.html">About Puzzle Poker</a></p></div>
 </body>
 </html>

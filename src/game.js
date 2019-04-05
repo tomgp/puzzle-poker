@@ -35,7 +35,6 @@ export function newGame(){
   };
 
 
-
   const secondaryDeck = fullDeck();
   const deck = [];
   
@@ -48,56 +47,74 @@ export function newGame(){
       deck.push(cardToAdd);
     }
     return game;
-  }
+  };
 
   game.getDeck = () => {
     return deck;
-  }
+  };
 
   game.table = () => {
     return table;
-  }
+  };
 
   game.setCard = (row, column, card) => {
     table.rows[Number(row)][Number(column)] = card;
     return game;
-  }
+  };
 
-  game.clearRow = (row)=>{
-    table.rows[row] = ['empty','empty','empty','empty','empty'];
-    return game;
-  }
+  game.clearRows = ()=>{
+    // if the rows have no empty items add 
+    // them to the to be cleared stack then start from 
+    const clearable = table.rows.map((row)=>(row.indexOf('empty') < 0));
 
-  game.checkRows = () => {
-    return table.rows.map(row => {
-      if(row.indexOf('empty') > -1){ return false }
-      const hand = Hand.solve(row);
-      const handValue = simpleClone(handScore[hand.name]);
-      hand.score = handValue;
-      if(!handTypeChecklist[hand.name]){
-        hand.score.points += firstHandBonus.points;
-        hand.score.cards += firstHandBonus.cards;
-        hand.firstOfTypeBonus = true;
-        handTypeChecklist[hand.name] = true;
+    let clearPoints = 0;
+    let clear = true;
+    const cleared = [false,false,false]
+    for(let i = table.rows.length; i--; i > -1){
+      clear = (clearable[i] && clear);
+      if(clear){
+        clearPoints += 111;
+        table.rows[i] = ['empty', 'empty', 'empty', 'empty', 'empty'];
+        cleared[i] = true;
       }
-      score.total += handValue.points;
-      score.handHistory.push(simpleClone(hand));
-      return hand;
-    });
-  }
+    }
+
+    score.total += clearPoints;
+    return {
+      rowsCleared:cleared,
+      points:clearPoints
+    };
+  };
+
+  game.scoreRow = (rowIndex)=>{
+    const row = table.rows[rowIndex];
+    if(row.indexOf('empty') > -1){ return false }
+    const hand = Hand.solve(row);
+    const handValue = simpleClone(handScore[hand.name])
+    hand.score = handValue;
+    if(!handTypeChecklist[hand.name]){
+      hand.score.points += firstHandBonus.points;
+      hand.score.cards += firstHandBonus.cards;
+      hand.firstOfTypeBonus = true;
+      handTypeChecklist[hand.name] = true;
+    }
+    score.total += handValue.points;
+    score.handHistory.push(simpleClone(hand));
+    return hand;
+  };
 
   game.getScore = () => {
     return score;
-  }
+  };
 
   game.getChecklist = () => {
     return handTypeChecklist;
-  }
+  };
 
   game.drawCard = () => {
     cardsDrawn += 1;
     return deck.pop();
-  }
+  };
 
   return game;
 }

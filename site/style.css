@@ -17,7 +17,9 @@ body{
   margin:0px;
   padding:20px;
 }
-
+game{
+  overflow: hidden;
+}
 img {
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -43,6 +45,9 @@ h1{
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-gap: var(--gridVerticalSpacing) var(--gridHorizontalSpacing);
   width: var(--gridWidth);
+  grid-template-areas:"r0c0 r0c1 r0c2 r0c3 r0c4"
+                      "r1c0 r1c1 r1c2 r1c3 r1c4"
+                      "r2c0 r2c1 r2c2 r2c3 r2c4";
 }
 
 .ui-container{
@@ -118,7 +123,7 @@ h1{
   box-sizing: border-box;
 }
 
-.card-space.occupied{
+.card-space.occupied {
   border: 0px;
 }
 
@@ -127,6 +132,38 @@ h1{
   border: 3px solid black;
 }
 
+.row0-backing {
+  grid-row-start: 1;
+  grid-row-end: 1;
+  grid-column-start: 1;
+  grid-column-end: 6;
+  border-radius: var(--corner);
+  transition-property: box-shadow, -webkit-box-shadow;
+}
+
+.row1-backing {
+  grid-row-start: 2;
+  grid-row-end: 2;
+  grid-column-start: 1;
+  grid-column-end: 6; 
+  border-radius: var(--corner);
+  transition-property: box-shadow, -webkit-box-shadow;
+}
+
+.row2-backing {
+  grid-row-start: 3;
+  grid-row-end: 3;
+  grid-column-start: 1;
+  grid-column-end: 6;
+  border-radius: var(--corner);
+  transition-property: box-shadow, -webkit-box-shadow;
+}
+
+.row0-backing.active,
+.row1-backing.active,
+.row2-backing.active{
+  border:2px solid blue;
+}
 .score{
   grid-column-end: span 3;
 }
@@ -193,4 +230,11 @@ td.num{
 
 .tooltip-title{
   font-weight: bold;
+}
+
+.info{
+  position: fixed;
+  display: inline-block;
+  bottom: 0px;
+  right: 0px;
 }
