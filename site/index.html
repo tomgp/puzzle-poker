@@ -7,37 +7,38 @@
 </head>
 <body>
 <h1>&bull; Puzzle Poker &bull;</h1>
+<nav class="info"><p><a href="about.html">About Puzzle Poker</a></p></nav>
 <div class="game">
   <div class="ui-container">
     <div>
       <div class="deck"></div>
-      <div class="remaining-count">32</div>
+      <div aria-label="remaining cards" class="remaining-count">32</div>
     </div>
     <div class="card-container"></div>
     <div class="score">
       <div class="total-score"></div>
-      <div class="last-score">&nbsp;</div>
+      <div aria-label="last hand completed" class="last-score">&nbsp;</div>
       <div class="hand-record"></div>
     </div>
   </div>
   <div class="grid">
-    <div class="card-space" style="grid-area: r0c0" data-row="0" data-col="0"></div>
-    <div class="card-space" style="grid-area: r0c1" data-row="0" data-col="1" ></div>
-    <div class="card-space" style="grid-area: r0c2" data-row="0" data-col="2"></div>
-    <div class="card-space" style="grid-area: r0c3" data-row="0" data-col="3"></div>
-    <div class="card-space" style="grid-area: r0c4" data-row="0" data-col="4"></div>
+    <div class="card-space" aria-label="First hand, first empty space" tabindex="1" style="grid-area: r0c0" data-row="0" data-col="0"></div>
+    <div class="card-space" aria-label="First hand, second empty space" tabindex="2" style="grid-area: r0c1" data-row="0" data-col="1"></div>
+    <div class="card-space" aria-label="First hand, third empty space" tabindex="3" style="grid-area: r0c2" data-row="0" data-col="2"></div>
+    <div class="card-space" aria-label="First hand, fourth empty space" tabindex="4" style="grid-area: r0c3" data-row="0" data-col="3"></div>
+    <div class="card-space" aria-label="First hand, fifth empty space" tabindex="5" style="grid-area: r0c4" data-row="0" data-col="4"></div>
 
-    <div class="card-space" style="grid-area: r1c0" data-row="1" data-col="0"></div>
-    <div class="card-space" style="grid-area: r1c1" data-row="1" data-col="1"></div>
-    <div class="card-space" style="grid-area: r1c2" data-row="1" data-col="2"></div>
-    <div class="card-space" style="grid-area: r1c3" data-row="1" data-col="3"></div>
-    <div class="card-space" style="grid-area: r1c4" data-row="1" data-col="4"></div>
+    <div class="card-space" aria-label="Second hand, first empty space" tabindex="6" style="grid-area: r1c0" data-row="1" data-col="0"></div>
+    <div class="card-space" aria-label="Second hand, second empty space" tabindex="7" style="grid-area: r1c1" data-row="1" data-col="1"></div>
+    <div class="card-space" aria-label="Second hand, third empty space" tabindex="8" style="grid-area: r1c2" data-row="1" data-col="2"></div>
+    <div class="card-space" aria-label="Second hand, fourth empty space" tabindex="9" style="grid-area: r1c3" data-row="1" data-col="3"></div>
+    <div class="card-space" aria-label="Second hand, fifth empty space" tabindex="10" style="grid-area: r1c4" data-row="1" data-col="4"></div>
 
-    <div class="card-space" style="grid-area: r2c0" data-row="2" data-col="0"></div>
-    <div class="card-space" style="grid-area: r2c1" data-row="2" data-col="1"></div>
-    <div class="card-space" style="grid-area: r2c2" data-row="2" data-col="2"></div>
-    <div class="card-space" style="grid-area: r2c3" data-row="2" data-col="3"></div>
-    <div class="card-space" style="grid-area: r2c4" data-row="2" data-col="4"></div>
+    <div class="card-space" aria-label="Third hand, first empty space" tabindex="11" style="grid-area: r2c0" data-row="2" data-col="0"></div>
+    <div class="card-space" aria-label="Third hand, second empty space" tabindex="12" style="grid-area: r2c1" data-row="2" data-col="1"></div>
+    <div class="card-space" aria-label="Third hand, third empty space" tabindex="13" style="grid-area: r2c2" data-row="2" data-col="2"></div>
+    <div class="card-space" aria-label="Third hand, fourth empty space" tabindex="14" style="grid-area: r2c3" data-row="2" data-col="3"></div>
+    <div class="card-space" aria-label="Third hand, fifth empty space" tabindex="15" style="grid-area: r2c4" data-row="2" data-col="4"></div>
 
     <div class="row0-backing">&nbsp;</div>
     <div class="row2-backing">&nbsp;</div>
@@ -45,6 +46,5 @@
   </div>
 </div>
 <div class="tooltip" style="opacity:0"></div>
-<div class="info"><p><a href="about.html">About Puzzle Poker</a></p></div>
 </body>
 </html>
