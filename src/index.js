@@ -3,6 +3,33 @@ import { newGame, event } from './game.js';
 import {handDescriptions} from './hand-descriptions.js';
 const g = newGame();
 
+function keyBoardListener(){
+  this.addEventListener('keydown',(ev)=>{
+    switch (ev.keyCode) {
+      case 13:
+        console.log('space', ev.target.dataset, ev.target.getAttribute('class'));
+        break;
+      
+      case 32:
+        console.log('space', ev.target.dataset, ev.target.getAttribute('class'));
+        break;
+      
+      case 38: //up
+        break;
+      case 40: //down
+        break;
+      case 37: //left
+        break;
+      case 39: //right
+        break;
+
+      default:
+        console.log(ev.keyCode);
+        break;
+    }
+  });
+}
+
 function updateCardDeck(add){
   if(add != undefined){
     g.addCardsToDeck(add);
@@ -232,6 +259,8 @@ const main = () => {
   updateScore(g.getScore(), g.getChecklist());
   addDragListeners(newCard);
   dragTargets = selectAll('.card-space:not(.occupied)');
+  //add a keyboard listener for 'return' to add a card to the currently selected space
+  dragTargets.each(keyBoardListener);
 }
 
 window.onload = main;
