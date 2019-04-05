@@ -232,10 +232,18 @@ td.num{
   font-weight: bold;
 }
 
-.info{
+.info,
+.info a{
+  background: white;
+  color: blue;
   position: fixed;
   display: inline-block;
   bottom: 0px;
   right: 0px;
   margin-right:10px;
+}
+
+.info a:hover{
+  background: blue;
+  color: white;
 }
