@@ -1,28 +1,61 @@
 import {select, selectAll, mouse} from 'd3';
 import { newGame, event } from './game.js';
 import {handDescriptions} from './hand-descriptions.js';
+
 const g = newGame();
+
+function clamp(n,min,max){
+  let val = Math.max(n, min);
+  return Math.min(val, max);
+}
+
+function placeCard(targetSpace){
+  const t = select(targetSpace); 
+  const snapTo = {x:0, y:0};
+  const activeCard = select('.active.card');
+  activeCard.classed('dragging',false);
+  if(t && t.node() && !t.classed('occupied')){
+    //add the card as a child of that space;
+    t.classed('occupied', true);
+    t.node().appendChild(activeCard.node());
+    activeCard.classed('active', false);
+    activeCard.classed('placed', true);
+    activeCard.on('mousedown', null);
+    dragTargets.classed('targeted', false);
+    cardPlaced(t.node().dataset.row, t.node().dataset.col);
+  }
+  activeCard
+    .style('left', `${snapTo.x}px`)
+    .style('top', `${snapTo.y}px`);
+}
+
+function moveFocus(direction, currentLocation){
+  const row = clamp(Number(currentLocation.row)+ direction[1], 0, 2);
+  const col = clamp(Number(currentLocation.col) + direction[0], 0, 4);
+  select(`[data-row="${row}"][data-col="${col}"]`).node().focus();
+}
 
 function keyBoardListener(){
   this.addEventListener('keydown',(ev)=>{
     switch (ev.keyCode) {
       case 13:
-        console.log('space', ev.target.dataset, ev.target.getAttribute('class'));
+        placeCard(ev.target);
         break;
-      
       case 32:
-        console.log('space', ev.target.dataset, ev.target.getAttribute('class'));
+        placeCard(ev.target);
         break;
-      
       case 38: //up
+        moveFocus([0,-1], ev.target.dataset);
         break;
       case 40: //down
+        moveFocus([0,1], ev.target.dataset);
         break;
       case 37: //left
+        moveFocus([-1,0], ev.target.dataset);
         break;
       case 39: //right
+        moveFocus([1,0], ev.target.dataset);
         break;
-
       default:
         console.log(ev.keyCode);
         break;
@@ -51,7 +84,12 @@ function updateCardDeck(add){
     .style('top', (d, i) => `${-i}px`);
 
   select('.remaining-count')
-    .text(g.getDeck().length);
+    .text(()=>{
+      if(g.getDeck().length < 10){
+        return `0${g.getDeck().length}`
+      }
+      return g.getDeck().length;
+    });
 }
 
 function drawCard(){
@@ -181,24 +219,7 @@ function drag(){
 function stopDrag(){
   dragging.on = false;
   const t = select('.targeted');
-  const snapTo = {x:0, y:0};
-  const activeCard = select('.active.card');
-  activeCard.classed('dragging',false);
-
-  if(t && t.node()){
-    //add the card as a child of that space;
-    t.classed('occupied', true);
-    t.node().appendChild(activeCard.node());
-    activeCard.classed('active', false);
-    activeCard.classed('placed', true);
-    activeCard.on('mousedown', null);
-    dragTargets.classed('targeted', false);
-    cardPlaced(t.node().dataset.row, t.node().dataset.col);
-  }
-
-  activeCard
-    .style('left', `${snapTo.x}px`)
-    .style('top', `${snapTo.y}px`);
+  placeCard(t.node());
 }
 
 function cardPlaced(row, col){
