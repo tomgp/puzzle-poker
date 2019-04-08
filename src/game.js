@@ -44,7 +44,7 @@ export function newGame(){
     }
     for(let i=0; i<n; i++){
       const cardToAdd = secondaryDeck.pop();
-      deck.shift(cardToAdd);
+      deck.push(cardToAdd);
     }
     return game;
   };
