@@ -103,10 +103,12 @@ function drawCard(){
     .append('div')
     .call(parent=>{
       parent.attr('class', 'active card')
-        .attr('data-code', drawnCard.code);
+        .attr('data-code', drawnCard.code)
+        .attr('aria-label',`${drawnCard.number} ${drawnCard.suit}`);
 
       parent.append('img')
         .attr('src',`images/${drawnCard.code}.svg`)
+        .attr('role','presentation')
         .attr('draggable','false');
     });
 }
@@ -272,6 +274,7 @@ function addDragListeners(targetNode){
   select('body').on('touchend', stopDrag);  
   select('body').on('mousemove', drag);
   select('body').on('touchmove', drag);
+
   targetNode.on('mousedown', startDrag);
   targetNode.on('touchstart', startDrag);
   targetNode.on('mousemove', drag);
