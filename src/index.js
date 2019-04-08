@@ -1,7 +1,8 @@
 import {select, selectAll, mouse} from 'd3';
-import { newGame, event } from './game.js';
+import { newGame } from './game.js';
 import {handDescriptions} from './hand-descriptions.js';
 
+const hashFragment = location.hash.substr(1);
 const g = newGame();
 
 function clamp(n,min,max){
@@ -107,7 +108,12 @@ function drawCard(){
         .attr('aria-label',`${drawnCard.number} ${drawnCard.suit}`);
 
       parent.append('img')
-        .attr('src',`images/${drawnCard.code}.svg`)
+        .attr('src',()=>{
+          if(hashFragment == 'simplified'){
+            return `images/simple/${drawnCard.code}.svg`;  
+          }
+          return `images/russian/${drawnCard.code}.svg`;
+        })
         .attr('role','presentation')
         .attr('draggable','false');
     });
