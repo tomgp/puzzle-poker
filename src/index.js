@@ -10,6 +10,12 @@ function clamp(n,min,max){
   return Math.min(val, max);
 }
 
+function clearTable(){
+  selectAll('.card').remove();
+  selectAll('.card-space')
+    .classed('occupied', false);
+}
+
 function placeCard(targetSpace){
   const t = select(targetSpace); 
   const snapTo = {x:0, y:0};
@@ -288,7 +294,16 @@ function addDragListeners(targetNode){
 }
 
 const main = () => {
+  select('#restart-button')
+    .on('click', ()=>{
+      console.log('f');
+      g.reset();
+      clearTable();
+      main();
+    });
+
   updateCardDeck(32);
+
   const newCard = drawCard();
   updateScore(g.getScore(), g.getChecklist());
   addDragListeners(newCard);

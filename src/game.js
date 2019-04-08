@@ -21,7 +21,7 @@ export function newGame(){
   let cardsDrawn = 0;
   const game = {};
 
-  const handTypeChecklist = newChecklist();
+  let handTypeChecklist = newChecklist();
   const score = {
     total: 0,
     handHistory: []
@@ -35,9 +35,22 @@ export function newGame(){
   };
 
 
-  const secondaryDeck = fullDeck();
-  const deck = [];
+  let secondaryDeck = fullDeck();
+  let deck = [];
   
+  game.reset = () => {
+    score.total = 0;
+    score.handHistory = [];
+    table.rows = [
+      ['empty','empty','empty','empty','empty'],
+      ['empty','empty','empty','empty','empty'],
+      ['empty','empty','empty','empty','empty']
+    ];
+    handTypeChecklist = newChecklist();
+    secondaryDeck = fullDeck();
+    deck = [];
+  };
+
   game.addCardsToDeck = (n) => {
     if(secondaryDeck.length < n){
       secondaryDeck.push( ...fullDeck());
