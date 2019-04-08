@@ -268,10 +268,14 @@ function cardPlaced(row, col){
 }
 
 function addDragListeners(targetNode){
-  select('body').on('mouseup', stopDrag);  
+  select('body').on('mouseup', stopDrag);
+  select('body').on('touchend', stopDrag);  
   select('body').on('mousemove', drag);
+  select('body').on('touchmove', drag);
   targetNode.on('mousedown', startDrag);
+  targetNode.on('touchstart', startDrag);
   targetNode.on('mousemove', drag);
+  targetNode.on('touchmove', drag);
 }
 
 const main = () => {
