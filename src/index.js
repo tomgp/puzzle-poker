@@ -233,6 +233,11 @@ function stopDrag(){
   placeCard(t.node());
 }
 
+function rowLock(row, locked=true){
+  select(`.row${row}-backing`)
+    .classed('locked', locked);
+}
+
 function cardPlaced(row, col){
   // put the current table state into a data structure for
   // testing for complete rows etc.
@@ -250,6 +255,7 @@ function cardPlaced(row, col){
   if(rowResult){
     updateCardDeck(rowResult.score.cards);
     updateScore(g.getScore(), g.getChecklist());
+    rowLock(row);
   } else {
     updateCardDeck();
   }
@@ -262,7 +268,8 @@ function cardPlaced(row, col){
 
   clear.rowsCleared.forEach((remove, i)=>{
     if(remove){
-      removeRow(i)
+      removeRow(i);
+      rowLock(i,false);
     };
   });
 

@@ -168,9 +168,9 @@ h1{
   transition-property: box-shadow, -webkit-box-shadow;
 }
 
-.row0-backing.active,
-.row1-backing.active,
-.row2-backing.active{
+.row0-backing.locked,
+.row1-backing.locked,
+.row2-backing.locked{
   border:2px solid blue;
 }
 .score{
