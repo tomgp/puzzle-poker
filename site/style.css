@@ -16,7 +16,14 @@ body{
   user-select: none;          /* Likely future */ 
   margin:0px;
   padding:20px;
+  padding-top:0px;
 }
+#title-image{
+  max-width:var(--gridWidth);
+  padding-top:0px;
+  margin-top:0px;
+}
+
 game{
   overflow: hidden;
 }
