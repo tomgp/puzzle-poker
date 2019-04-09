@@ -115,10 +115,7 @@ function drawCard(){
 
       parent.append('img')
         .attr('src',()=>{
-          if(hashFragment == 'simplified'){
-            return `images/simple/${drawnCard.code}.svg`;  
-          }
-          return `images/russian/${drawnCard.code}.svg`;
+          return `images/simple/${drawnCard.code}.svg`;  
         })
         .attr('role','presentation')
         .attr('draggable','false');
