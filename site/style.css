@@ -171,7 +171,8 @@ h1{
 .row0-backing.locked,
 .row1-backing.locked,
 .row2-backing.locked{
-  border:2px solid blue;
+  background: rgb(0,34,255);
+  background: linear-gradient(0deg, rgba(0,34,255,0.3365736970684039) 0%, rgba(253,29,29,0) 100%);
 }
 .score{
   grid-column-end: span 3;
