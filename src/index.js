@@ -70,6 +70,39 @@ function keyBoardListener(){
   });
 }
 
+function updateHandHistory(history){
+
+  select('.hand-history')
+    .selectAll('.hand')
+      .data(history.reverse(), d=>d.id)
+    .enter()
+      .append('div')
+      .classed('hand', true)
+      .call(parent=>{
+        console.log('enter');
+
+        parent.append('div')
+          .classed('hand-cards',true)
+          .selectAll('.hand-card')
+          .data(d=>{
+            return d.cards
+          })
+          .enter()
+          .append('div')
+          .classed('hand-card',true)
+          .append('img')
+          .attr('src', d=>`images/simple/${d.value}${d.suit}.svg`);
+        
+        parent.append('div')
+          .classed('hand-score',true)
+          .text(d=>`${d.score.points} (+${d.score.cards} cards)`);
+        
+        parent.append('div')
+          .classed('hand-name',true)
+          .html(d=>` <b>${d.name}</b>`);
+      });
+}
+
 function updateCardDeck(add){
   if(add != undefined){
     g.addCardsToDeck(add);
@@ -252,6 +285,7 @@ function cardPlaced(row, col){
     });
 
   const rowResult = g.scoreRow(row);
+  
   if(rowResult){
     updateCardDeck(rowResult.score.cards);
     updateScore(g.getScore(), g.getChecklist());
@@ -261,7 +295,8 @@ function cardPlaced(row, col){
   }
 
   const clear = g.clearRows();
-
+  console.log(g.history());
+  updateHandHistory(g.history());
   if(clear.score > 0){
     updateScore(g.getScore(), g.getChecklist());
   }

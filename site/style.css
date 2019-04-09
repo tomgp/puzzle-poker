@@ -265,3 +265,18 @@ td.num{
     padding: 0px;
   }
 }
+
+.hand-cards{
+  display: inline-block;
+}
+
+.hand-card{
+  display: inline-block;
+  width:20px;
+}
+.hand-score{
+  display: inline-block;
+}
+.hand-name{
+  display: inline-block;
+}

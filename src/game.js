@@ -112,6 +112,7 @@ export function newGame(){
       handTypeChecklist[hand.name] = true;
     }
     score.total += handValue.points;
+    hand.id = score.handHistory.length;
     score.handHistory.push(simpleClone(hand));
     return hand;
   };
@@ -128,6 +129,10 @@ export function newGame(){
     cardsDrawn += 1;
     return deck.pop();
   };
+
+  game.history = () =>{
+    return score.handHistory;
+  }
 
   return game;
 }
