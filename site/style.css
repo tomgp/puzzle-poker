@@ -9,6 +9,8 @@
 }
 
 body{
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: auto;
   font-family: sans-serif;
   -webkit-user-select: none;  /* Chrome all / Safari all */
   -moz-user-select: none;     /* Firefox all */

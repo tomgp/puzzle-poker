@@ -1,9 +1,12 @@
-import {select, selectAll, mouse} from 'd3';
+import { event, select, selectAll, mouse } from 'd3';
 import { newGame } from './game.js';
-import {handDescriptions} from './hand-descriptions.js';
+import { handDescriptions } from './hand-descriptions.js';
 
-const hashFragment = location.hash.substr(1);
 const g = newGame();
+
+function preventBouncing(){
+  console.log('stop bounce')
+}
 
 function clamp(n,min,max){
   let val = Math.max(n, min);
@@ -68,6 +71,10 @@ function keyBoardListener(){
         break;
     }
   });
+}
+
+function gameOver(){
+
 }
 
 function updateHandHistory(history){
@@ -233,7 +240,15 @@ const dragging = {
 
 let dragTargets;
 
-function startDrag(){
+function preventDefault(e) {
+  e = e || window.event;
+  if (e.preventDefault)
+      e.preventDefault();
+  e.returnValue = false;  
+}
+
+function startDrag(event){
+  preventDefault();
   dragging.on = true; //pageX
   const globalLocation = mouse(select('body').node());
   
@@ -244,6 +259,8 @@ function startDrag(){
 }
 
 function drag(){
+  preventDefault();
+  
   if(dragging.on){
     const currentlocation = mouse(select('body').node());
 		const offset = {
@@ -261,6 +278,7 @@ function drag(){
 }
 
 function stopDrag(){
+  preventDefault();
   dragging.on = false;
   const t = select('.targeted');
   placeCard(t.node());
@@ -333,6 +351,8 @@ function addDragListeners(targetNode){
 }
 
 const main = () => {
+  preventBouncing();
+
   select('#restart-button')
     .on('click', ()=>{
       console.log('f');
