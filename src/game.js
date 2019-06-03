@@ -113,7 +113,11 @@ export function newGame(){
     }
     score.total += handValue.points;
     hand.id = score.handHistory.length;
+    console.log('pushing to history')
+    console.log( `${hand.descr} ${hand.cards.map(c=>`${c.value}${c.suit}`)}` )
+     
     score.handHistory.push(simpleClone(hand));
+    console.log(score.handHistory);
     return hand;
   };
 

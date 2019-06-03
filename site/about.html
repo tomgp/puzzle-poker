@@ -3,16 +3,33 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+  .about{
+    user-select: default;
+  }
+  ::selection {
+    background: #ffb7b7;
+  }
+  a{
+    color: rgb(0,34,255);
+  }
+  a:hover{
+    background: rgb(0,34,255);
+    color:white;
+  }
+  </style>
 </head>
 <body>
 <div class="about">
   <h1>About Puzzle Poker</h1>
-  <p><em>Puzzle Poker</em> is based on Reiner Knizia's <em>Deck Buster</em> game which I used to enjoy playing on my iPad until the developer stopped updating it and it became incompatible with later versions of iOS.</p>
+  <p><em>Puzzle Poker</em> is based on <a href="https://www.knizia.de">Reiner Knizia</a>&apos;s <em>Deck Buster</em> game which I used to enjoy playing on my iPad until the developer stopped updating it and it became incompatible with later versions of iOS.</p>
+  <p><a href="index.html">back to the game</a></p>
   <h2>Aim</h2>
-  <p>The aim of the game is to get a high score by completing five card <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Hand-ranking_categories">poker hands</a> on the rows of the grid above.</p>
-  <p>When a row is complete the cards which have been place on that row disappear allowing you to make further hands and score more points.</p>
-  <p>More difficult hands score higher and completing hands also adds more cards to your deck letting you to play for longer and increase your score further. The first time you complete a particular hand you'll get some bonus points and some bonus cards.</p>
-  <p>One last thing: The deck only has 32 cards (no 2&apos;s, 3&apos;s, 4&apos;s, 5&apos;s or 6&apos;s so the probablilities of getting the rarer hands aren't as formidable as they might otherwise be.</p>
+  <p>The aim of the game is to get a high score by completing five card <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Hand-ranking_categories">poker hands</a> on the rows of the grid.</p>
+  <p>When a row is complete the cards which have been placed on that row disappear allowing you to make further hands and score more points &mdash; actually it&apos;s a bit more complicated than that; only the bottom row gets cleared immediately the middle and top row need to wait for the lower rows to be filled in before they can drop off.</p>
+  <p>More difficult hands score higher and completing hands also adds more cards to your deck letting you to play for longer and increase your score further. The first time you complete a particular hand you&apos;ll get some bonus points and some bonus cards.</p>
+  <p>One last thing: The deck only has 32 cards (no 2&apos;s, 3&apos;s, 4&apos;s, 5&apos;s or 6&apos;s so the probablilities of getting the rarer hands aren&apos;t as formidable as they might otherwise be.</p>
+  <p><a href="index.html">back to the game</a></p>
   <h2>Scoring</h2>
   <table>
     <tr><th>Hand</th><th>Points</th><th>Cards</th></tr>
@@ -28,20 +45,20 @@
     <tr><td>Royal Flush</td><td class="num">1600</td><td class="num">16</td></tr>
     <tr><td>First of type bonus</td><td class="num">500</td><td class="num">5</td></tr>
   </table>
+  <p><a href="index.html">back to the game</a></p>
   <h2>Things I used to make this</h2>
   <ul>
-    <li><a href="https://commons.wikimedia.org/wiki/File:Atlasnye_playing_cards_deck.svg">Card graphics from Wikimedia</a></li>
-    <li>The <a href="https://www.npmjs.com/package/pokersolver">pokersolver</a> module which saved me a lot of work and distraction in recognising poker hands, exactly the kind of rabbit hole I'm prone to pursue.</li>
-    <li><a href="https://www.d3js.org">D3</a> for DOM manipulation and card shuffling</li>
+    <li>The <a href="https://www.npmjs.com/package/pokersolver">pokersolver</a> module which saved me a lot of work and distraction in recognising poker hands, exactly the kind of rabbit hole I&apos;m prone to diving into.</li>
+    <li><a href="https://www.d3js.org">D3</a> for DOM manipulation and card shuffling.</li>
   </ul>
+  <p><a href="index.html">back to the game</a></p>
   <h2>To-do list</h2>
   <ul>
-    <li>touch controls for phones etc.</li>
-    <li>keyboard controls</li>
     <li>accesibility improvements</li>
-    <li>store scoring record locally -- high score table, stats etc.</li>
+    <li>store scoring record locally &mdash; high score table, stats etc.</li>
     <li>choice of card faces and backs</li>
   </ul>
+  <p><a href="index.html">back to the game</a></p>
 </div>
 </body>
 </html>

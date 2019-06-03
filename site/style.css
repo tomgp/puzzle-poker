@@ -12,10 +12,7 @@ body{
   overscroll-behavior: none;
   -webkit-overflow-scrolling: auto;
   font-family: sans-serif;
-  -webkit-user-select: none;  /* Chrome all / Safari all */
-  -moz-user-select: none;     /* Firefox all */
-  -ms-user-select: none;      /* IE 10+ */
-  user-select: none;          /* Likely future */ 
+  user-select: none; 
   margin:0px;
   padding:20px;
   padding-top:0px;
@@ -191,6 +188,13 @@ span[data-handname]{
   font-size: 0.7rem;
   color: #333;
   margin-top: 10px;
+}
+
+.hand-history{
+  height: 200px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin-bottom: 50px;
 }
 
 .face-down.card{
