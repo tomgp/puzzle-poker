@@ -286,3 +286,49 @@ td.num{
 .hand-name{
   display: inline-block;
 }
+
+.game-over{
+  display: none;
+  background-image: url("images/game-over.svg");
+  background-size: 33%;
+  width: 100vw;
+  height: 100vh;
+  padding: 0px;
+  margin: 0px;
+  background-color: rgba(255,255,255,0.7);
+  box-sizing: border-box;
+}
+.game-over div{
+  align-self: center;
+  color: white;
+  margin: 10px;
+  padding:10px;
+  padding-right:20px;
+  padding-left:20px;
+  background-color:  rgba(0,0,0,1);
+  font-size: 90px;
+  font-weight: bolder;
+  -webkit-box-shadow: 10px 10px 4px -1px rgba(0,0,0,0.39); 
+  box-shadow: 10px 10px 4px -1px rgba(0,0,0,0.39);
+}
+
+.game-over .restart-ui{
+  padding:0px;
+  font-size: 15px;
+}
+
+.restart-ui .restart-button{
+  font-size: 50px;
+  background:white;
+  border-width: 10px;
+}
+
+.game-over.overlay{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top:0px;
+  left:0px;
+}

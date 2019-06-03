@@ -73,10 +73,6 @@ function keyBoardListener(){
   });
 }
 
-function gameOver(){
-
-}
-
 function updateHandHistory(history){
 
   select('.hand-history')
@@ -179,6 +175,9 @@ function updateScore(score, checklist){
 
   select('.total-score')
     .text(`Score: ${Number(score.total).toLocaleString()}`);
+
+  select('.score-value')
+    .text(`${Number(score.total).toLocaleString()}`)
 
   if(lastHand){
     select('.last-score')
@@ -313,7 +312,6 @@ function cardPlaced(row, col){
   }
 
   const clear = g.clearRows();
-  console.log(g.history());
   updateHandHistory(g.history());
   if(clear.score > 0){
     updateScore(g.getScore(), g.getChecklist());
@@ -329,8 +327,9 @@ function cardPlaced(row, col){
   const newCard = drawCard();
 
   if(!newCard){
-    console.log('gameOver')
+    console.log('gameOver');
     //clear board and say game over
+    select('.game-over').classed('overlay',true);
   }else{
     addDragListeners(newCard);
     // set the drag targets to available spaces
@@ -353,9 +352,10 @@ function addDragListeners(targetNode){
 const main = () => {
   preventBouncing();
 
-  select('#restart-button')
+  selectAll('.restart-button')
     .on('click', ()=>{
-      console.log('f');
+      console.log('restarting!');
+      select('.game-over').classed('overlay',false);
       g.reset();
       clearTable();
       main();
