@@ -1,12 +1,8 @@
-import { event, select, selectAll, mouse } from 'd3';
+import { select, selectAll, mouse } from 'd3';
 import { newGame } from './game.js';
 import { handDescriptions } from './hand-descriptions.js';
 
 const g = newGame();
-
-function preventBouncing(){
-  console.log('stop bounce')
-}
 
 function clamp(n,min,max){
   let val = Math.max(n, min);
@@ -361,7 +357,6 @@ const gameRestart = ()=>{
 }
 
 function main(){
-  preventBouncing();
 
   selectAll('.restart-button')
     .on('click', gameRestart)
