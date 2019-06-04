@@ -349,20 +349,23 @@ function addDragListeners(targetNode){
   targetNode.on('touchmove', drag);
 }
 
-const main = () => {
+const gameRestart = ()=>{
+  console.log('restarting!');
+  select('.game-over').classed('overlay',false);
+  selectAll('.locked')
+    .classed('locked', false);
+  select('.hand-history').html('')
+  g.reset();
+  clearTable();
+  main();
+}
+
+function main(){
   preventBouncing();
 
   selectAll('.restart-button')
-    .on('click', ()=>{
-      console.log('restarting!');
-      select('.game-over').classed('overlay',false);
-      selectAll('.locked')
-        .classed('locked', false);
-      select('.hand-history').html('')
-      g.reset();
-      clearTable();
-      main();
-    });
+    .on('click', gameRestart)
+    .on('touch', gameRestart);
 
   updateCardDeck(32);
 
