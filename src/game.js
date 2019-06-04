@@ -17,6 +17,13 @@ const handScore = {
 
 const firstHandBonus = {cards:5, points:500}; 
 
+const normaliseCards = (hand) => hand.map(d=>d.replace('1','A').toUpperCase());
+const normaliseName = (hand) => {
+  if(hand.name == 'Straight Flush' && hand.descr == 'Royal Flush'){
+    hand.name = 'Royal Flush';
+  }
+  return hand;
+}
 export function newGame(){
   let cardsDrawn = 0;
   const game = {};
@@ -102,19 +109,19 @@ export function newGame(){
   game.scoreRow = (rowIndex)=>{
     const row = table.rows[rowIndex];
     if(row.indexOf('empty') > -1){ return false }
-    const hand = Hand.solve(row);
-    const handValue = simpleClone(handScore[hand.name])
-    hand.score = handValue;
+    const hand = normaliseName( Hand.solve(normaliseCards(row)) );
+    hand.score = simpleClone(handScore[hand.name])
+    
     if(!handTypeChecklist[hand.name]){
       hand.score.points += firstHandBonus.points;
       hand.score.cards += firstHandBonus.cards;
       hand.firstOfTypeBonus = true;
       handTypeChecklist[hand.name] = true;
     }
-    score.total += handValue.points;
-    hand.id = score.handHistory.length;
+    score.total += hand.score.points;
+    hand.id = (new Date()).getTime();
     console.log('pushing to history')
-    console.log( `${hand.descr} ${hand.cards.map(c=>`${c.value}${c.suit}`)}` )
+    console.log( `${hand.name}, ${hand.descr}, ${hand.cards.map(c=>`${c.value}${c.suit}`)}` )
      
     score.handHistory.push(simpleClone(hand));
     console.log(score.handHistory);

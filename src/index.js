@@ -77,7 +77,7 @@ function updateHandHistory(history){
 
   select('.hand-history')
     .selectAll('.hand')
-      .data(history.reverse(), d=>d.id)
+      .data(history.sort( (a,b)=>(b.id-a.id) ), d=>d.id)
     .enter()
       .append('div')
       .classed('hand', true)
@@ -102,7 +102,7 @@ function updateHandHistory(history){
         
         parent.append('div')
           .classed('hand-name',true)
-          .html(d=>` <b>${d.name}</b>`);
+          .html(d=>`${d.name}`);
       });
 }
 
@@ -356,6 +356,9 @@ const main = () => {
     .on('click', ()=>{
       console.log('restarting!');
       select('.game-over').classed('overlay',false);
+      selectAll('.locked')
+        .classed('locked', false);
+      select('.hand-history').html('')
       g.reset();
       clearTable();
       main();
